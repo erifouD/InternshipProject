@@ -43,7 +43,9 @@ void ALevelCreator::AddSphere(int x, int y)
 
 void ALevelCreator::Level1()
 {
-
+	AddSphere(10, 12);
+	AddSphere(100, -120);
+	AddSphere(340, -620);
 }
 
 void ALevelCreator::Level2()
