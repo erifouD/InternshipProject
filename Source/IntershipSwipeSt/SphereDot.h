@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Materials/Material.h"
+#include "Engine/Classes/Components/StaticMeshComponent.h"
 #include "SphereDot.generated.h"
 
 UCLASS()
@@ -17,12 +17,8 @@ public:
 	ASphereDot();
 
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UMaterial> SphereMaterial;
-
-
 	//The sphere that will be visible in the game
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* VisibleSphere;
 
 protected:
