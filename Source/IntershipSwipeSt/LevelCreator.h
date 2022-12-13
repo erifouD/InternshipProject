@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "SphereDot.h"
 #include "LevelCreator.generated.h"
+
 
 UCLASS()
 class INTERSHIPSWIPEST_API ALevelCreator : public AActor
@@ -14,6 +16,12 @@ class INTERSHIPSWIPEST_API ALevelCreator : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ALevelCreator();
+
+	//An array of spheres on the playing field
+	UPROPERTY()
+	TArray<ASphereDot*> DotsArray;
+
+
 
 protected:
 	// Called when the game starts or when spawned

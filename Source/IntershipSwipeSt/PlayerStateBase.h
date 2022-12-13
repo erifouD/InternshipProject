@@ -13,5 +13,4 @@ UCLASS()
 class INTERSHIPSWIPEST_API APlayerStateBase : public APlayerState
 {
 	GENERATED_BODY()
-	
 };
