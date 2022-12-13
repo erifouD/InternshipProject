@@ -13,5 +13,9 @@ UCLASS()
 class INTERSHIPSWIPEST_API AIntershipSwipeStGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+public:
+	//Variable to choose Level
+	UPROPERTY(BlueprintReadWrite)
+	int32 LevelNumber;
 	
 };

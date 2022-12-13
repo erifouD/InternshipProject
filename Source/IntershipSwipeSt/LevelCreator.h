@@ -21,6 +21,9 @@ public:
 	UPROPERTY()
 	TArray<ASphereDot*> DotsArray;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ASphereDot> SphereDotClass;
+
 
 
 protected:
@@ -31,4 +34,21 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	//List of levels
+	UFUNCTION()
+	void Level1();
+
+	UFUNCTION()
+	void Level2();
+
+	UFUNCTION()
+	void Level3();
+
+	UFUNCTION()
+	void Level4();
+	//end List
+
+	//Adding Spheres to level
+	UFUNCTION()
+	void AddSphere(int x, int y);
 };
