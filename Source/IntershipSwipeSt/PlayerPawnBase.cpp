@@ -3,6 +3,7 @@
 
 #include "PlayerPawnBase.h"
 #include "Components/InputComponent.h"
+#include "Blueprint/UserWidget.h"
 
 // Sets default values
 APlayerPawnBase::APlayerPawnBase()
@@ -26,6 +27,8 @@ void APlayerPawnBase::BeginPlay()
 
 	//Setting camera position
 	SetActorLocation(FVector(0, 0, 1400));
+
+	
 }
 
 // Called every frame

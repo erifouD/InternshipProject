@@ -9,7 +9,7 @@ ASphereDot::ASphereDot()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//Setting Default Sphere
+	//Setting up Default Sphere
 	VisibleSphere = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisibleSphere"));
 
 
