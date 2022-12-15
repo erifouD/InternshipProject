@@ -38,6 +38,15 @@ void ALevelCreator::AddSphere(int x, int y)
 	FTransform SphereTransform(SpherePosition);
 
 	ASphereDot* NewSphere = GetWorld()->SpawnActor<ASphereDot>(SphereDotClass, SphereTransform);
+
+	//creating spline if Array of spheres is empty
+	if (DotsArray.Num() == 0)
+		NewLine = GetWorld()->SpawnActor<ASplineLine>(SplineLineClass, SphereTransform);
+
+	else
+		NewLine->AddSplineElement(x, y);
+
+
 	DotsArray.Add(NewSphere);
 }
 

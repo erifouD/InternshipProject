@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "SphereDot.h"
+#include "SplineLine.h"
 #include "LevelCreator.generated.h"
 
 
@@ -21,9 +22,15 @@ public:
 	UPROPERTY()
 	TArray<ASphereDot*> DotsArray;
 
+
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ASphereDot> SphereDotClass;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ASplineLine> SplineLineClass;
+
+	UPROPERTY()
+	ASplineLine* NewLine = nullptr;
 
 
 protected:
