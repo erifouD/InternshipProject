@@ -57,5 +57,5 @@ public:
 
 	//Adding Spheres to level
 	UFUNCTION()
-	void AddSphere(int x, int y);
+	void AddSphere(float x, float y);
 };

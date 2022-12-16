@@ -25,7 +25,7 @@ public:
 
 	//Function to create a spline point. Has an implementation in blueprint
 	UFUNCTION(BlueprintImplementableEvent)
-	void AddSplineElement(int x, int y);
+	void AddSplineElement(float x, float y);
 	
 
 };
