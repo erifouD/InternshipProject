@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "LevelCreator.h"
+#include "PlayerStateBase.h"
 #include "IntershipSwipeStGameModeBase.generated.h"
 
 /**
