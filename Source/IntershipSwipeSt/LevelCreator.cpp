@@ -26,7 +26,7 @@ void ALevelCreator::Tick(float DeltaTime)
 
 }
 
-void ALevelCreator::AddSphere(int x, int y)
+void ALevelCreator::AddSphere(float x, float y)
 {
 	//Setting Position for NewSphere
 	FVector SpherePosition;
