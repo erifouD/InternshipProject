@@ -11,8 +11,8 @@ ASphereDot::ASphereDot()
 
 	//Setting up Default Sphere
 	VisibleSphere = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisibleSphere"));
-	VisibleSphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	VisibleSphere->SetCollisionResponseToAllChannels(ECR_Overlap);
+	//VisibleSphere->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	//VisibleSphere->SetCollisionResponseToAllChannels(ECR_Overlap);
 
 
 }

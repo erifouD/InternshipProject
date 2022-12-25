@@ -10,13 +10,9 @@ void AIntershipSwipeStGameModeBase::BeginPlay()
 
 void AIntershipSwipeStGameModeBase::CreateLevelFunc(int32 LevelNum)
 {
+	bIsLevelCreated = true;
 	//spawning level
-	FVector LevelCreation;
-	LevelCreation.X = 0;
-	LevelCreation.Y = 0;
-	LevelCreation.Z = 0;
-
-	FTransform LevelCreatorTransform(LevelCreation);
+	FTransform LevelCreatorTransform(FVector(0, 0, 0));
 
 	ALevelCreator* NewLevel = GetWorld()->SpawnActor<ALevelCreator>(LevelCreator, LevelCreatorTransform);
 	switch (LevelNumber) {

@@ -21,6 +21,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* VisibleSphere;
 
+	//whether the point is part of a line
+	bool bIsInLine = true;
 
 protected:
 	// Called when the game starts or when spawned

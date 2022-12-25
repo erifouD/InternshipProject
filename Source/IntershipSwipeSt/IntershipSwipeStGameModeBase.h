@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<ALevelCreator> LevelCreator;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsLevelCreated;
+
 protected:
 	virtual void BeginPlay() override;
 

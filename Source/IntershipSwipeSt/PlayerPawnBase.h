@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "Engine/Classes/Camera/CameraComponent.h"
 #include "IntershipSwipeStGameModeBase.h"
+#include "Kismet/GameplayStatics.h"
+#include "PlayerControllerBase.h"
 #include "PlayerPawnBase.generated.h"
 
 UCLASS()
@@ -40,5 +42,7 @@ public:
 
 	UFUNCTION()
 	void ActionReleased();
+
+	void HitCheck();
 
 };
