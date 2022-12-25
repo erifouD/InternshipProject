@@ -28,14 +28,9 @@ void ALevelCreator::Tick(float DeltaTime)
 
 void ALevelCreator::AddSphere(float x, float y)
 {
-	//Setting Position for NewSphere
-	FVector SpherePosition;
-	SpherePosition.X = x;
-	SpherePosition.Y = y;
-	SpherePosition.Z = 0;
 
 	//Setting Transform for NewSphere
-	FTransform SphereTransform(SpherePosition);
+	FTransform SphereTransform(FVector(0,0,0));
 
 	ASphereDot* NewSphere = GetWorld()->SpawnActor<ASphereDot>(SphereDotClass, SphereTransform);
 
