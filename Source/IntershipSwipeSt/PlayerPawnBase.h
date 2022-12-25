@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/Classes/Camera/CameraComponent.h"
+#include "IntershipSwipeStGameModeBase.h"
 #include "PlayerPawnBase.generated.h"
 
 UCLASS()
@@ -33,5 +34,11 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION()
+	void ActionPressed();
+
+	UFUNCTION()
+	void ActionReleased();
 
 };

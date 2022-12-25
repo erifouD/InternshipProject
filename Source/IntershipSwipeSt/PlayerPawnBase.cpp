@@ -43,5 +43,26 @@ void APlayerPawnBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	PlayerInputComponent->BindAction("TapAction",
+		IE_Pressed, this, &APlayerPawnBase::ActionPressed);
+
+	PlayerInputComponent->BindAction("TapAction", 
+		IE_Released, this, &APlayerPawnBase::ActionReleased);
+}
+
+void APlayerPawnBase::ActionPressed()
+{
+	//If the level is active
+	if (IsValid(Cast<AIntershipSwipeStGameModeBase>(GetWorld()->GetAuthGameMode())->LevelCreator)) {
+
+	}
+}
+
+void APlayerPawnBase::ActionReleased()
+{
+	//If the level is active
+	if (IsValid(Cast<AIntershipSwipeStGameModeBase>(GetWorld()->GetAuthGameMode())->LevelCreator)) {
+
+	}
 }
 
