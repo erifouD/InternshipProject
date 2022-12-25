@@ -20,7 +20,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int32 LevelNumber;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<ALevelCreator> LevelCreator;
 
 	UPROPERTY(BlueprintReadWrite)
@@ -33,4 +33,5 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CreateLevelFunc(int32 LevelNum);
+
 };

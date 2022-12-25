@@ -28,6 +28,9 @@ void APlayerPawnBase::BeginPlay()
 	//Setting camera position
 	SetActorLocation(FVector(0, 0, 1400));
 
+	PawnCamera->SetProjectionMode(ECameraProjectionMode::Orthographic);
+	PawnCamera->SetOrthoWidth(2048);
+
 	
 }
 
