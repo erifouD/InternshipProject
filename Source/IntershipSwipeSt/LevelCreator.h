@@ -23,6 +23,7 @@ public:
 	TArray<ASphereDot*> DotsArray;
 
 
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<ASphereDot> SphereDotClass;
 

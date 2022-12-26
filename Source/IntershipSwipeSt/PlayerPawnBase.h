@@ -5,10 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Engine/Classes/Camera/CameraComponent.h"
-#include "IntershipSwipeStGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "PlayerControllerBase.h"
 #include "LevelCreator.h"
+#include "IntershipSwipeStGameModeBase.h"
 #include "Components/SplineMeshComponent.h"
 #include "PlayerPawnBase.generated.h"
 
@@ -31,6 +31,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	FVector CurrentCursorLocation;
 
+	ALevelCreator* LevelCreatorInPawn;
+
+	bool bIsLevelCreatedPawn = false;
 
 
 protected:
@@ -54,4 +57,15 @@ public:
 	UFUNCTION()
 	void RecievingLocation();
 
+	UFUNCTION()
+	void LocationCalculation(FHitResult HitRes);
+
+	UFUNCTION()
+	double DistanceCalculation(FVector FirstPoint, FVector SecondPoint);
+
+	UFUNCTION()
+	FVector LineProjection(FVector CurrentLocation, FVector FirSphere, FVector SecSphere);
+
+	UFUNCTION(BlueprintCallable)
+	void LevelCreate();
 };
