@@ -14,7 +14,7 @@ void AIntershipSwipeStGameModeBase::CreateLevelFunc(int32 LevelNum)
 	//spawning level
 	FTransform LevelCreatorTransform(FVector(0, 0, 0));
 
-	ALevelCreator* NewLevel = GetWorld()->SpawnActor<ALevelCreator>(LevelCreator, LevelCreatorTransform);
+	NewLevel = GetWorld()->SpawnActor<ALevelCreator>(LevelCreator, LevelCreatorTransform);
 	switch (LevelNumber) {
 	case 1: NewLevel->Level1(); break;
 	case 2: NewLevel->Level2(); break;

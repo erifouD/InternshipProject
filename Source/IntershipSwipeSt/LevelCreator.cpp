@@ -30,7 +30,7 @@ void ALevelCreator::AddSphere(float x, float y)
 {
 
 	//Setting Transform for NewSphere
-	FTransform SphereTransform(FVector(0,0,0));
+	FTransform SphereTransform(FVector(x,y,0));
 
 	ASphereDot* NewSphere = GetWorld()->SpawnActor<ASphereDot>(SphereDotClass, SphereTransform);
 
@@ -40,7 +40,6 @@ void ALevelCreator::AddSphere(float x, float y)
 
 	else
 		NewLine->AddSplineElement(x, y);
-
 
 	DotsArray.Add(NewSphere);
 }

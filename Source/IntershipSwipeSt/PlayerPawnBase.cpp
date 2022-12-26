@@ -38,7 +38,8 @@ void APlayerPawnBase::BeginPlay()
 void APlayerPawnBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (bIsTapHold)
+		RecievingLocation();
 }
 
 // Called to bind functionality to input
@@ -55,6 +56,8 @@ void APlayerPawnBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void APlayerPawnBase::ActionPressed()
 {
+	bIsTapHold = true;
+
 	//If the level is active
 	if (Cast<AIntershipSwipeStGameModeBase>(GetWorld()->GetAuthGameMode())->bIsLevelCreated) {
 
@@ -68,30 +71,28 @@ void APlayerPawnBase::ActionPressed()
 
 		
 	}
-	HitCheck();
 }
 
 void APlayerPawnBase::ActionReleased()
 {
-	//If the level is active
-	if (IsValid(Cast<AIntershipSwipeStGameModeBase>(GetWorld()->GetAuthGameMode())->LevelCreator)) {
-
-	}
+	bIsTapHold = false;
 }
 
-void APlayerPawnBase::HitCheck()
+void APlayerPawnBase::RecievingLocation()
 {
-	if (Cast<AIntershipSwipeStGameModeBase>(GetWorld()->GetAuthGameMode())->bIsLevelCreated) {
+	FHitResult Hit;
 
-		//Pawn Controller Variable
-		APlayerController* PawnController = UGameplayStatics::GetPlayerController(this, 0);
+	ALevelCreator* LevelCreatorInPawn = Cast<ALevelCreator>(Cast<AIntershipSwipeStGameModeBase>
+		(GetWorld()->GetAuthGameMode())->NewLevel);
 
-		FHitResult Hit;
-
-		PawnController->GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, Hit);
-		ASphereDot* Hitted = Cast<ASphereDot>(Hit.GetActor());
-		if(IsValid(Hitted))
-			Hitted->Destroy();
+	UGameplayStatics::GetPlayerController(this, 0)->
+		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, Hit);
+	
+	CurrentCursorLocation = FVector(Hit.Location.X, Hit.Location.Y, 0);
+	if (IsValid(LevelCreatorInPawn)) {
+		if (Hit.GetActor()->GetClass() == LevelCreatorInPawn->SphereDotClass) {
+			TArray<USplineMeshComponent*> SplineLines = Cast<ASplineLine>(LevelCreatorInPawn->SplineLineClass)->ArrayLineSegments;
+		}
 	}
 }
 

@@ -20,6 +20,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int32 LevelNumber;
 
+	UPROPERTY()
+	ALevelCreator* NewLevel;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<ALevelCreator> LevelCreator;
 

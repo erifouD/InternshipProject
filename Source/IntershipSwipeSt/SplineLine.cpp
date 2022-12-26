@@ -25,3 +25,8 @@ void ASplineLine::Tick(float DeltaTime)
 
 }
 
+void ASplineLine::AddSplineMeshToArray(USplineMeshComponent* Mesh)
+{
+	ArrayLineSegments.Add(Mesh);
+}
+

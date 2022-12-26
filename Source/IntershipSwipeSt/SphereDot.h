@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Engine/Classes/Components/StaticMeshComponent.h"
+#include "Components/TextRenderComponent.h"
 #include "SphereDot.generated.h"
 
 UCLASS()
@@ -20,6 +21,7 @@ public:
 	//The sphere that will be visible in the game
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* VisibleSphere;
+
 
 	//whether the point is part of a line
 	bool bIsInLine = true;

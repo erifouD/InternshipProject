@@ -23,7 +23,7 @@ public:
 	TArray<ASphereDot*> DotsArray;
 
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<ASphereDot> SphereDotClass;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -58,4 +58,5 @@ public:
 	//Adding Spheres to level
 	UFUNCTION()
 	void AddSphere(float x, float y);
+
 };

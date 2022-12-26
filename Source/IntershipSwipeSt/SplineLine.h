@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/SplineMeshComponent.h"
 #include "SplineLine.generated.h"
 
 UCLASS()
@@ -14,6 +15,9 @@ class INTERSHIPSWIPEST_API ASplineLine : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ASplineLine();
+
+	UPROPERTY()
+	TArray<USplineMeshComponent*> ArrayLineSegments;
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,6 +30,8 @@ public:
 	//Function to create a spline point. Has an implementation in blueprint
 	UFUNCTION(BlueprintImplementableEvent)
 	void AddSplineElement(float x, float y);
-	
 
+	UFUNCTION(BlueprintCallable)
+	void AddSplineMeshToArray(USplineMeshComponent* Mesh);
+	
 };

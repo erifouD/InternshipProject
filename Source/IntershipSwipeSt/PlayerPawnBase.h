@@ -8,6 +8,8 @@
 #include "IntershipSwipeStGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "PlayerControllerBase.h"
+#include "LevelCreator.h"
+#include "Components/SplineMeshComponent.h"
 #include "PlayerPawnBase.generated.h"
 
 UCLASS()
@@ -22,6 +24,12 @@ public:
 	//Default player camera
 	UPROPERTY(BlueprintReadWrite)
 	UCameraComponent* PawnCamera;
+
+	//Checking for tap
+	bool bIsTapHold = false;
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector CurrentCursorLocation;
 
 
 
@@ -43,6 +51,7 @@ public:
 	UFUNCTION()
 	void ActionReleased();
 
-	void HitCheck();
+	UFUNCTION()
+	void RecievingLocation();
 
 };
