@@ -170,7 +170,8 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 			if (GetSphereIDFromArray(Hit.GetActor()) - CurrentSphere == Multiplier) {
 				if (CurrentSphere + Multiplier == 0 || CurrentSphere + Multiplier == LevelCreatorInPawn->DotsArray.Num() - 1) {
 					if (CurrentSphere + Multiplier > 0 || CurrentSphere + Multiplier < LevelCreatorInPawn->DotsArray.Num()) {
-						LevelCreatorInPawn->NewLine->Destroy();
+						LevelCreatorInPawn->ClearLine();
+						InLinePtr->Destroy();
 					}
 				}
 				else CurrentSphere += Multiplier;

@@ -60,4 +60,6 @@ public:
 	UFUNCTION()
 	void AddSphere(float x, float y);
 
+	UFUNCTION()
+	void ClearLine();
 };

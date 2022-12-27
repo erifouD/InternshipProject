@@ -44,6 +44,14 @@ void ALevelCreator::AddSphere(float x, float y)
 	DotsArray.Add(NewSphere);
 }
 
+void ALevelCreator::ClearLine()
+{
+	for (ASphereDot*& Iterator : DotsArray) {
+		Iterator->Destroy();
+	}
+	NewLine->Destroy();
+}
+
 void ALevelCreator::Level1()
 {
 	AddSphere(10, 12);
