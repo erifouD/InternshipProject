@@ -143,7 +143,10 @@ FVector APlayerPawnBase::LineProjection(FVector CurrentLocation, FVector FirSphe
 		return Final;
 	}
 
-	else return FVector(SecSphere.X, SecSphere.Y, 50);
+	else {
+		OnNextSphere();
+		return FVector(SecSphere.X, SecSphere.Y, 50);
+	}
 }
 
 void APlayerPawnBase::LevelCreate()
@@ -166,17 +169,17 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 		}
 
 		//If the cursor is over a sphere
-		if (IsSphere(Hit.GetActor()) && LevelCreatorInPawn->DotsArray[CurrentSphere] != Hit.GetActor()) {
-			if (GetSphereIDFromArray(Hit.GetActor()) - CurrentSphere == Multiplier) {
-				if (CurrentSphere + Multiplier == 0 || CurrentSphere + Multiplier == LevelCreatorInPawn->DotsArray.Num() - 1) {
-					if (CurrentSphere + Multiplier > 0 || CurrentSphere + Multiplier < LevelCreatorInPawn->DotsArray.Num()) {
-						LevelCreatorInPawn->ClearLine();
-						InLinePtr->Destroy();
-					}
-				}
-				else CurrentSphere += Multiplier;
-			}
-		}
+		//if (IsSphere(Hit.GetActor()) && LevelCreatorInPawn->DotsArray[CurrentSphere] != Hit.GetActor()) {
+			//if (GetSphereIDFromArray(Hit.GetActor()) - CurrentSphere == Multiplier) {
+				//if (CurrentSphere + Multiplier == 0 || CurrentSphere + Multiplier == LevelCreatorInPawn->DotsArray.Num() - 1) {
+					//if (CurrentSphere + Multiplier > 0 || CurrentSphere + Multiplier < LevelCreatorInPawn->DotsArray.Num()) {
+						//LevelCreatorInPawn->ClearLine();
+						//InLinePtr->Destroy();
+					//}
+				//}
+				//else CurrentSphere += Multiplier;
+			//}
+		//}
 	}
 }
 
@@ -198,6 +201,24 @@ bool APlayerPawnBase::IsSphere(AActor* HittedActor)
 	if (HittedActor->GetClass() == LevelCreatorInPawn->SphereDotClass)
 		return true;
 	else return false;
+}
+
+void APlayerPawnBase::OnNextSphere()
+{
+	if (SphereID == 0) {
+		if ((CurrentSphere + 1) == LevelCreatorInPawn->DotsArray.Num() - 1) {
+			LevelCreatorInPawn->ClearLine();
+			InLinePtr->Destroy();
+		}
+		else CurrentSphere++;
+	}
+	else {
+		if ((CurrentSphere - 1) == 0) {
+			LevelCreatorInPawn->ClearLine();
+			InLinePtr->Destroy();
+		}
+		else CurrentSphere--;
+	}
 }
 
 void APlayerPawnBase::LocationCalculation(FHitResult HitRes)

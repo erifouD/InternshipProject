@@ -93,4 +93,6 @@ public:
 	int32 GetSphereIDFromArray(AActor* Sphere);
 
 	bool IsSphere(AActor* HittedActor);
+
+	void OnNextSphere();
 };
