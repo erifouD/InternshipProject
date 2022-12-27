@@ -6,6 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "LevelCreator.h"
 #include "PlayerStateBase.h"
+#include "LevelsData.h"
+#include "Engine/DataAsset.h"
 #include "Kismet/GameplayStatics.h"
 #include "IntershipSwipeStGameModeBase.generated.h"
 
@@ -24,8 +26,14 @@ public:
 	UPROPERTY()
 	ALevelCreator* NewLevel;
 
+	UPROPERTY()
+	TArray<ALevelCreator*> LevelsArray;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<ALevelCreator> LevelCreator;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDataAsset> LevelsDataClass;
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsLevelCreated;
@@ -36,6 +44,6 @@ protected:
 public:
 
 	UFUNCTION(BlueprintCallable)
-	void CreateLevelFunc(int32 LevelNum);
+	void CreateLevelFunc(int32 LevelNum, ULevelsData* LevelsAssets);
 
 };

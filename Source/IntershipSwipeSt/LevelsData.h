@@ -11,7 +11,7 @@
  */
 
 USTRUCT(BlueprintType)
-struct FPlayableLevel {
+struct FElementData {
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -24,6 +24,14 @@ struct FPlayableLevel {
 	double SpawnTime;
 };
 
+USTRUCT(BlueprintType)
+struct FLevelSet {
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	TArray<FElementData> GameElements;
+};
+
 UCLASS()
 class INTERSHIPSWIPEST_API ULevelsData : public UDataAsset
 {
@@ -32,6 +40,6 @@ class INTERSHIPSWIPEST_API ULevelsData : public UDataAsset
 public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-		TArray<FPlayableLevel> Levels;
+	TArray<FLevelSet> Levels;
 
 };

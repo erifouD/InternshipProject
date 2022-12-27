@@ -8,17 +8,18 @@ void AIntershipSwipeStGameModeBase::BeginPlay()
 {
 }
 
-void AIntershipSwipeStGameModeBase::CreateLevelFunc(int32 LevelNum)
+void AIntershipSwipeStGameModeBase::CreateLevelFunc(int32 LevelNum, ULevelsData* LevelsAssets)
 {
 	bIsLevelCreated = true;
 	//spawning level
 	FTransform LevelCreatorTransform(FVector(0, 0, 0));
 
-	NewLevel = GetWorld()->SpawnActor<ALevelCreator>(LevelCreator, LevelCreatorTransform);
-	switch (LevelNumber) {
-	case 1: NewLevel->Level1(); break;
-	case 2: NewLevel->Level2(); break;
-	case 3: NewLevel->Level3(); break;
-	case 4: NewLevel->Level4(); break;
+	FLevelSet ChosenLevel = Cast<ULevelsData>(LevelsAssets)->Levels[LevelNum - 1];
+	for (FElementData& Iterator : ChosenLevel.GameElements) {
+		NewLevel = GetWorld()->SpawnActor<ALevelCreator>(LevelCreator, LevelCreatorTransform);
+		LevelsArray.Add(NewLevel);
+		for (FVector2D& VectorIterator : Iterator.Points) {
+			NewLevel->AddSphere(VectorIterator.X, VectorIterator.Y);
+		}
 	}
 }
