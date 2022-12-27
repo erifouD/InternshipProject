@@ -109,7 +109,7 @@ double APlayerPawnBase::DistanceCalculation(FVector FirstPoint, FVector SecondPo
 
 FVector APlayerPawnBase::LineProjection(FVector CurrentLocation, FVector FirSphere, FVector SecSphere)
 {
-	double a, b, c, p, Height, SplineMeshDistance;
+	double a, b, c, p, Height, SplineMeshDistance, Angle;
 
 	//Finding the sides of a triangle
 	a = DistanceCalculation(FirSphere, SecSphere);
@@ -124,12 +124,18 @@ FVector APlayerPawnBase::LineProjection(FVector CurrentLocation, FVector FirSphe
 
 	SplineMeshDistance = FMath::Sqrt(b * b - Height * Height);
 
+	Angle = ((a * a + b * b - c * c) / (2 * b * a));
 	FVector DistanceFromOrigin = FVector((SecSphere.X - FirSphere.X), (SecSphere.Y - FirSphere.Y), 0);
-	if ((SplineMeshDistance / a) < 1) {
+
+	if (Angle < 0)
+		return FVector(FirSphere.X, FirSphere.Y, 50);
+
+	else if ((SplineMeshDistance / a) < 1) {
 		FVector ShorterVector = DistanceFromOrigin * (SplineMeshDistance / a);
 		FVector Final = FVector((ShorterVector.X + FirSphere.X), (ShorterVector.Y + FirSphere.Y), 50);
 		return Final;
 	}
+
 	else return FVector(SecSphere.X, SecSphere.Y, 50);
 }
 
