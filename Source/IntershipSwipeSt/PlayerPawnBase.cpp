@@ -72,14 +72,21 @@ void APlayerPawnBase::ActionPressed()
 		//If the click was on a sphere
 		if (IsValid(LevelCreatorInPawn)) {
 			if (IsSphere(Hit.GetActor()) && IsValid(LevelCreatorInPawn->DotsArray[SphereID])) {
-				FVector Util = LineProjection(Hit.Location, LevelCreatorInPawn->DotsArray[SphereID]->GetActorLocation(),
-					LevelCreatorInPawn->DotsArray[SphereID + 1]->GetActorLocation());
-				InLinePtr = GetWorld()->SpawnActor<AInLineIndicator>(InLineClass, FTransform(FVector(Util.X, Util.Y, 50)));
+				if (LevelCreatorInPawn->DotsArray.Num() == 1) {
+					if (IsValid(InLinePtr))
+						InLinePtr->Destroy();
+					LevelCreatorInPawn->DotsArray[0]->Destroy();
+				}
+				else {
+					FVector Util = LineProjection(Hit.Location, LevelCreatorInPawn->DotsArray[SphereID]->GetActorLocation(),
+						LevelCreatorInPawn->DotsArray[SphereID + 1]->GetActorLocation());
+					InLinePtr = GetWorld()->SpawnActor<AInLineIndicator>(InLineClass, FTransform(FVector(Util.X, Util.Y, 50)));
 
-				//Getting the ID for the clicked sphere
-				SphereID = GetSphereIDFromArray(Hit.GetActor());
-				if (SphereID == 0) CurrentSphere = 0;
-				else if (SphereID == LevelCreatorInPawn->DotsArray.Num() - 1) CurrentSphere = LevelCreatorInPawn->DotsArray.Num() - 1;
+					//Getting the ID for the clicked sphere
+					SphereID = GetSphereIDFromArray(Hit.GetActor());
+					if (SphereID == 0) CurrentSphere = 0;
+					else if (SphereID == LevelCreatorInPawn->DotsArray.Num() - 1) CurrentSphere = LevelCreatorInPawn->DotsArray.Num() - 1;
+				}
 			}
 		}
 	}
@@ -167,19 +174,6 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 				LevelCreatorInPawn->DotsArray[CurrentSphere + Multiplier]->GetActorLocation())
 			);
 		}
-
-		//If the cursor is over a sphere
-		//if (IsSphere(Hit.GetActor()) && LevelCreatorInPawn->DotsArray[CurrentSphere] != Hit.GetActor()) {
-			//if (GetSphereIDFromArray(Hit.GetActor()) - CurrentSphere == Multiplier) {
-				//if (CurrentSphere + Multiplier == 0 || CurrentSphere + Multiplier == LevelCreatorInPawn->DotsArray.Num() - 1) {
-					//if (CurrentSphere + Multiplier > 0 || CurrentSphere + Multiplier < LevelCreatorInPawn->DotsArray.Num()) {
-						//LevelCreatorInPawn->ClearLine();
-						//InLinePtr->Destroy();
-					//}
-				//}
-				//else CurrentSphere += Multiplier;
-			//}
-		//}
 	}
 }
 

@@ -55,8 +55,6 @@ void ALevelCreator::ClearLine()
 void ALevelCreator::Level1()
 {
 	AddSphere(10, 12);
-	AddSphere(100, -120);
-	AddSphere(340, -620);
 }
 
 void ALevelCreator::Level2()
