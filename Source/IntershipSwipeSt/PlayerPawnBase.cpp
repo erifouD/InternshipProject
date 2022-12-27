@@ -75,6 +75,11 @@ void APlayerPawnBase::ActionPressed()
 				FVector Util = LineProjection(Hit.Location, LevelCreatorInPawn->DotsArray[SphereID]->GetActorLocation(),
 					LevelCreatorInPawn->DotsArray[SphereID + 1]->GetActorLocation());
 				InLinePtr = GetWorld()->SpawnActor<AInLineIndicator>(InLineClass, FTransform(FVector(Util.X, Util.Y, 50)));
+
+				//Getting the ID for the clicked sphere
+				GetSphereIDFromArray(Hit.GetActor());
+				if (SphereID == 0) CurrentSphere = 0;
+				else if (SphereID == LevelCreatorInPawn->DotsArray.Num() - 1) CurrentSphere = LevelCreatorInPawn->DotsArray.Num() - 1;
 			}
 		}
 	}
@@ -86,6 +91,8 @@ void APlayerPawnBase::ActionReleased()
 	bIsTapHold = false;
 	if(IsValid(InLinePtr))
 		InLinePtr->Destroy();
+	SphereID = 0;
+	CurrentSphere = 0;
 }
 
 void APlayerPawnBase::RecievingLocation()
@@ -149,12 +156,25 @@ void APlayerPawnBase::LevelCreate()
 
 void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 {
-	if (bIsLevelCreatedPawn && SphereID + 1 < LevelCreatorInPawn->DotsArray.Num() && IsValid(InLinePtr)) {
-		InLinePtr->SetActorLocation(LineProjection
-		(CurrentCursorLocation,
-			LevelCreatorInPawn->DotsArray[0]->GetActorLocation(),
-			LevelCreatorInPawn->DotsArray[1]->GetActorLocation())
-		);
+	if (LevelCreatorInPawn != nullptr) {
+		if (bIsLevelCreatedPawn && CurrentSphere + Multiplier < LevelCreatorInPawn->DotsArray.Num() && IsValid(InLinePtr)) {
+			InLinePtr->SetActorLocation(LineProjection
+			(CurrentCursorLocation,
+				LevelCreatorInPawn->DotsArray[CurrentSphere]->GetActorLocation(),
+				LevelCreatorInPawn->DotsArray[CurrentSphere + Multiplier]->GetActorLocation())
+			);
+		}
+
+		//If the cursor is over a sphere
+		if (IsSphere(Hit.GetActor()) && LevelCreatorInPawn->DotsArray[CurrentSphere] != Hit.GetActor()) {
+
+			if (CurrentSphere + Multiplier == 0 || CurrentSphere + Multiplier == LevelCreatorInPawn->DotsArray.Num() - 1) {
+				if (CurrentSphere + Multiplier > 0 || CurrentSphere + Multiplier < LevelCreatorInPawn->DotsArray.Num()) {
+					LevelCreatorInPawn->NewLine->Destroy();
+				}
+			}
+			else CurrentSphere += Multiplier;
+		}
 	}
 }
 
@@ -182,8 +202,6 @@ void APlayerPawnBase::LocationCalculation(FHitResult HitRes)
 
 	CurrentCursorLocation = FVector(HitRes.Location.X, HitRes.Location.Y, 0);
 
-	//Getting the ID for the clicked sphere
-	GetSphereIDFromArray(HitRes.GetActor());
 
 	//If the pressed sphere is finite
 	if (SphereID == 0) {
