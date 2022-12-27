@@ -70,6 +70,13 @@ void APlayerPawnBase::ActionPressed()
 		PawnController->GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, Hit);
 
 		//If the click was on a sphere
+		if (IsValid(LevelCreatorInPawn)) {
+			if (IsSphere(Hit.GetActor()) && IsValid(LevelCreatorInPawn->DotsArray[SphereID])) {
+				FVector Util = LineProjection(Hit.Location, LevelCreatorInPawn->DotsArray[SphereID]->GetActorLocation(),
+					LevelCreatorInPawn->DotsArray[SphereID + 1]->GetActorLocation());
+				InLinePtr = GetWorld()->SpawnActor<AInLineIndicator>(InLineClass, FTransform(FVector(Util.X, Util.Y, 50)));
+			}
+		}
 	}
 	bIsTapHold = true;
 }
@@ -90,13 +97,7 @@ void APlayerPawnBase::RecievingLocation()
 	CurrentCursorLocation = Hit.Location;
 
 	//UpdatindInLineLocation
-	if (bIsLevelCreatedPawn && SphereID + 1 < LevelCreatorInPawn->DotsArray.Num() && IsValid(InLinePtr)) {
-		InLinePtr->SetActorLocation(LineProjection
-		(CurrentCursorLocation,
-			LevelCreatorInPawn->DotsArray[0]->GetActorLocation(),
-			LevelCreatorInPawn->DotsArray[1]->GetActorLocation())
-		);
-	}
+	LocationCalculation(Hit);
 }
 
 double APlayerPawnBase::DistanceCalculation(FVector FirstPoint, FVector SecondPoint)
@@ -124,9 +125,12 @@ FVector APlayerPawnBase::LineProjection(FVector CurrentLocation, FVector FirSphe
 	SplineMeshDistance = FMath::Sqrt(b * b - Height * Height);
 
 	FVector DistanceFromOrigin = FVector((SecSphere.X - FirSphere.X), (SecSphere.Y - FirSphere.Y), 0);
-	FVector ShorterVector = DistanceFromOrigin * (SplineMeshDistance / a);
-	FVector Final = FVector((ShorterVector.X + FirSphere.X), (ShorterVector.Y + FirSphere.Y), 50);
-	return Final;
+	if ((SplineMeshDistance / a) < 1) {
+		FVector ShorterVector = DistanceFromOrigin * (SplineMeshDistance / a);
+		FVector Final = FVector((ShorterVector.X + FirSphere.X), (ShorterVector.Y + FirSphere.Y), 50);
+		return Final;
+	}
+	else return FVector(SecSphere.X, SecSphere.Y, 50);
 }
 
 void APlayerPawnBase::LevelCreate()
@@ -139,15 +143,12 @@ void APlayerPawnBase::LevelCreate()
 
 void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 {
-	if (IsValid(LevelCreatorInPawn)) {
-		if (IsSphere(Hit.GetActor()) && IsValid(LevelCreatorInPawn->DotsArray[SphereID])) {
-
-			LocationCalculation(Hit);
-
-			FVector Util = LineProjection(Hit.Location, LevelCreatorInPawn->DotsArray[SphereID]->GetActorLocation(),
-				LevelCreatorInPawn->DotsArray[SphereID + 1]->GetActorLocation());
-			InLinePtr = GetWorld()->SpawnActor<AInLineIndicator>(InLineClass, FTransform(FVector(Util.X, Util.Y, 50)));
-		}
+	if (bIsLevelCreatedPawn && SphereID + 1 < LevelCreatorInPawn->DotsArray.Num() && IsValid(InLinePtr)) {
+		InLinePtr->SetActorLocation(LineProjection
+		(CurrentCursorLocation,
+			LevelCreatorInPawn->DotsArray[0]->GetActorLocation(),
+			LevelCreatorInPawn->DotsArray[1]->GetActorLocation())
+		);
 	}
 }
 
@@ -180,12 +181,12 @@ void APlayerPawnBase::LocationCalculation(FHitResult HitRes)
 
 	//If the pressed sphere is finite
 	if (SphereID == 0) {
-
+		LineInProgress(HitRes, 1);
 	}
 
 	//If the pressed sphere is back finite
 	else if (SphereID == LevelCreatorInPawn->DotsArray.Num() - 1) {
-
+		LineInProgress(HitRes, -1);
 	}
 }
 
