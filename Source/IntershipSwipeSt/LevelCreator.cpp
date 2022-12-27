@@ -71,7 +71,6 @@ void ALevelCreator::Level3()
 
 void ALevelCreator::Level4()
 {
-	AddSphere(-500, 1220);
 	AddSphere(-310, 910);
 	AddSphere(530, 810);
 	AddSphere(540, 290);

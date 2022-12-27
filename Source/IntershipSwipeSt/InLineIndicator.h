@@ -5,25 +5,20 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Engine/Classes/Components/StaticMeshComponent.h"
-#include "SphereDot.generated.h"
+#include "InLineIndicator.generated.h"
 
 UCLASS()
-class INTERSHIPSWIPEST_API ASphereDot : public AActor
+class INTERSHIPSWIPEST_API AInLineIndicator : public AActor
 {
 	GENERATED_BODY()
+
 	
 public:	
 	// Sets default values for this actor's properties
-	ASphereDot();
+	AInLineIndicator();
 
-
-	//The sphere that will be visible in the game
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UStaticMeshComponent* VisibleSphere;
-
-
-	//whether the point is part of a line
-	bool bIsInLine = true;
+	UStaticMeshComponent* RedDot;
 
 protected:
 	// Called when the game starts or when spawned

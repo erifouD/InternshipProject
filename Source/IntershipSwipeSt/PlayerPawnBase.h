@@ -6,8 +6,9 @@
 #include "GameFramework/Pawn.h"
 #include "Engine/Classes/Camera/CameraComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "PlayerControllerBase.h"
 #include "LevelCreator.h"
+#include "InLineIndicator.h"
+#include "SphereDot.h"
 #include "IntershipSwipeStGameModeBase.h"
 #include "Components/SplineMeshComponent.h"
 #include "PlayerPawnBase.generated.h"
@@ -30,6 +31,23 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	FVector CurrentCursorLocation;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AInLineIndicator> InLineClass;
+
+	UPROPERTY()
+	AInLineIndicator* InLinePtr;
+
+	UPROPERTY()
+	int32 CurrentSphere;
+
+	UPROPERTY()
+	TArray<ASphereDot*> CheckedSpheres;
+
+	UPROPERTY()
+	FVector BestLocation;
+
+	int32 SphereID = 0;
 
 	ALevelCreator* LevelCreatorInPawn;
 
@@ -68,4 +86,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void LevelCreate();
+
+	UFUNCTION()
+	void LineInProgress(FHitResult Hit, int32 Multiplier);
+
+	void GetSphereIDFromArray(AActor* Sphere);
+
+	bool IsSphere(AActor* HittedActor);
 };
