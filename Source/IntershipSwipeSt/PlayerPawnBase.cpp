@@ -77,7 +77,7 @@ void APlayerPawnBase::ActionPressed()
 				InLinePtr = GetWorld()->SpawnActor<AInLineIndicator>(InLineClass, FTransform(FVector(Util.X, Util.Y, 50)));
 
 				//Getting the ID for the clicked sphere
-				GetSphereIDFromArray(Hit.GetActor());
+				SphereID = GetSphereIDFromArray(Hit.GetActor());
 				if (SphereID == 0) CurrentSphere = 0;
 				else if (SphereID == LevelCreatorInPawn->DotsArray.Num() - 1) CurrentSphere = LevelCreatorInPawn->DotsArray.Num() - 1;
 			}
@@ -167,27 +167,29 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 
 		//If the cursor is over a sphere
 		if (IsSphere(Hit.GetActor()) && LevelCreatorInPawn->DotsArray[CurrentSphere] != Hit.GetActor()) {
-
-			if (CurrentSphere + Multiplier == 0 || CurrentSphere + Multiplier == LevelCreatorInPawn->DotsArray.Num() - 1) {
-				if (CurrentSphere + Multiplier > 0 || CurrentSphere + Multiplier < LevelCreatorInPawn->DotsArray.Num()) {
-					LevelCreatorInPawn->NewLine->Destroy();
+			if (GetSphereIDFromArray(Hit.GetActor()) - CurrentSphere == Multiplier) {
+				if (CurrentSphere + Multiplier == 0 || CurrentSphere + Multiplier == LevelCreatorInPawn->DotsArray.Num() - 1) {
+					if (CurrentSphere + Multiplier > 0 || CurrentSphere + Multiplier < LevelCreatorInPawn->DotsArray.Num()) {
+						LevelCreatorInPawn->NewLine->Destroy();
+					}
 				}
+				else CurrentSphere += Multiplier;
 			}
-			else CurrentSphere += Multiplier;
 		}
 	}
 }
 
-void APlayerPawnBase::GetSphereIDFromArray(AActor* Sphere)
+int32 APlayerPawnBase::GetSphereIDFromArray(AActor* Sphere)
 {
 	if (Sphere->GetClass() == LevelCreatorInPawn->SphereDotClass) {
 		for (int32 i = 0; i < LevelCreatorInPawn->DotsArray.Num(); i++) {
 			if (LevelCreatorInPawn->DotsArray[i] == Sphere) {
-				SphereID = i;
-				return;
+				//SphereID = i;
+				return i;
 			}
 		}
 	}
+	return -10;
 }
 
 bool APlayerPawnBase::IsSphere(AActor* HittedActor)

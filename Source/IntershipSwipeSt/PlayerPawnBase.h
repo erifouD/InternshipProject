@@ -90,7 +90,7 @@ public:
 	UFUNCTION()
 	void LineInProgress(FHitResult Hit, int32 Multiplier);
 
-	void GetSphereIDFromArray(AActor* Sphere);
+	int32 GetSphereIDFromArray(AActor* Sphere);
 
 	bool IsSphere(AActor* HittedActor);
 };
