@@ -109,7 +109,7 @@ void APlayerPawnBase::ActionReleased()
 	bIsTapHold = false;
 	if(IsValid(InLinePtr))
 		InLinePtr->Destroy();
-	SphereID = 0;
+	SphereID = NULL;
 	CurrentSphere = 0;
 	LevelCreatorInPawn = nullptr;
 }
@@ -171,15 +171,17 @@ void APlayerPawnBase::LocationCalculation(FHitResult HitRes)
 
 	CurrentCursorLocation = FVector(HitRes.Location.X, HitRes.Location.Y, 0);
 
+	if (IsValid(LevelCreatorInPawn)) {
+		//If the pressed sphere is finite
+		if (SphereID == 0) {
+			LineInProgress(HitRes, 1);
+		}
 
-	//If the pressed sphere is finite
-	if (SphereID == 0) {
-		LineInProgress(HitRes, 1);
+		//If the pressed sphere is back finite
+		else if (SphereID == LevelCreatorInPawn->DotsArray.Num() - 1) {
+			LineInProgress(HitRes, -1);
+		}
 	}
-
-	//If the pressed sphere is back finite
-	else if (SphereID == LevelCreatorInPawn->DotsArray.Num() - 1) {
-		LineInProgress(HitRes, -1);
-	}
+	else ActionReleased();
 }
 
