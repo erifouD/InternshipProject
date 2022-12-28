@@ -90,12 +90,6 @@ void APlayerPawnBase::ActionPressed()
 				}
 				else {
 					FVector Util = Hit.GetActor()->GetActorLocation();
-					//CalcLibrary::LineProjection(
-					//	Hit.Location,
-					//	LevelCreatorInPawn->DotsArray[SphereID]->GetActorLocation(),
-					//	LevelCreatorInPawn->DotsArray[SphereID + 1]->GetActorLocation(),
-					//	SphereID, CurrentSphere, LevelCreatorInPawn, InLinePtr
-					//);
 
 					InLinePtr = GetWorld()->SpawnActor<AInLineIndicator>(InLineClass, FTransform(FVector(Util.X, Util.Y, 50)));
 
@@ -122,14 +116,14 @@ void APlayerPawnBase::ActionReleased()
 
 void APlayerPawnBase::RecievingLocation()
 {
-	FHitResult Hit;
-	UGameplayStatics::GetPlayerController(this, 0)->
-		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, Hit);
+		FHitResult Hit;
+		UGameplayStatics::GetPlayerController(this, 0)->
+			GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, Hit);
 
-	CurrentCursorLocation = Hit.Location;
+		CurrentCursorLocation = Hit.Location;
 
-	//UpdatindInLineLocation
-	LocationCalculation(Hit);
+		//UpdatindInLineLocation
+		LocationCalculation(Hit);
 }
 
 

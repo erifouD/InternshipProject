@@ -36,6 +36,7 @@ void ALevelCreator::ClearLine()
 		Iterator->Destroy();
 	}
 	NewLine->Destroy();
+	this->Destroy();
 }
 
 void ALevelCreator::SpawnLevel()

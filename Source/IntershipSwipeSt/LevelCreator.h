@@ -66,4 +66,7 @@ public:
 
 	UFUNCTION()
 	void StartTimer();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void BlueprintPawnCast();
 };

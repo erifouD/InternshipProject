@@ -24,8 +24,8 @@ FVector CalcLibrary::LineProjection(
 	FVector SecSphere,
 	int32& SphereID,
 	int32& CurrentSphere,
-	ALevelCreator* LevelCreator,
-	AInLineIndicator* Indicator)
+	ALevelCreator*& LevelCreator,
+	AInLineIndicator*& Indicator)
 {
 	double a, b, c, p, Height, SplineMeshDistance, Angle;
 
@@ -76,12 +76,13 @@ bool CalcLibrary::IsSphere(AActor* HittedActor, ALevelCreator* LevelCreator)
 void CalcLibrary::OnNextSphere(
 	int32& SphereID, 
 	int32& CurrentSphere, 
-	ALevelCreator* LevelCreator,
-	AInLineIndicator* Indicator)
+	ALevelCreator*& LevelCreator,
+	AInLineIndicator*& Indicator)
 {
 	if (SphereID == 0) {
 		if ((CurrentSphere + 1) == LevelCreator->DotsArray.Num() - 1) {
 			LevelCreator->ClearLine();
+			LevelCreator = nullptr;
 			Indicator->Destroy();
 		}
 		else CurrentSphere++;
@@ -89,6 +90,7 @@ void CalcLibrary::OnNextSphere(
 	else {
 		if ((CurrentSphere - 1) == 0) {
 			LevelCreator->ClearLine();
+			LevelCreator = nullptr;
 			Indicator->Destroy();
 		}
 		else CurrentSphere--;

@@ -25,16 +25,16 @@ public:
 		FVector SecSphere,
 		int32& SphereID,
 		int32& CurrentSphere,
-		ALevelCreator* LevelCreator,
-		AInLineIndicator* Indicator);
+		ALevelCreator*& LevelCreator,
+		AInLineIndicator*& Indicator);
 
 	static bool IsSphere(AActor* HittedActor, ALevelCreator* LevelCreator);
 
 	static void OnNextSphere(
 		int32& SphereID,
 		int32& CurrentSphere,
-		ALevelCreator* LevelCreator,
-		AInLineIndicator* Indicator);
+		ALevelCreator*& LevelCreator,
+		AInLineIndicator*& Indicator);
 
 	static int32 GetSphereIDFromArray(AActor* Sphere, ALevelCreator* LevelCreator);
 };
