@@ -9,6 +9,7 @@
 #include "LevelCreator.h"
 #include "InLineIndicator.h"
 #include "SphereDot.h"
+#include "CalcLibrary.h"
 #include "IntershipSwipeStGameModeBase.h"
 #include "Components/SplineMeshComponent.h"
 #include "PlayerPawnBase.generated.h"

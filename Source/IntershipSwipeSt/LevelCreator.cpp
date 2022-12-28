@@ -52,37 +52,3 @@ void ALevelCreator::ClearLine()
 	NewLine->Destroy();
 }
 
-void ALevelCreator::Level1()
-{
-	AddSphere(10, 12);
-}
-
-void ALevelCreator::Level2()
-{
-	AddSphere(100, -100);
-	AddSphere(80, 111);
-	AddSphere(450, 410);
-	AddSphere(-114, 115);
-	AddSphere(137, 228);
-}
-
-void ALevelCreator::Level3()
-{
-	AddSphere(390, 790);
-	AddSphere(-450, 510);
-	AddSphere(-110, 150);
-	AddSphere(360, 20);
-	AddSphere(90, -600);
-}
-
-void ALevelCreator::Level4()
-{
-	AddSphere(-310, 910);
-	AddSphere(530, 810);
-	AddSphere(540, 290);
-	AddSphere(100, 50);
-	AddSphere(390, 790);
-	AddSphere(320, -350);
-	AddSphere(-100, 850);
-}
-

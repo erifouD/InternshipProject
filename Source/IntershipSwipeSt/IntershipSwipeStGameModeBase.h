@@ -32,9 +32,6 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSubclassOf<ALevelCreator> LevelCreator;
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UDataAsset> LevelsDataClass;
-
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsLevelCreated;
 
