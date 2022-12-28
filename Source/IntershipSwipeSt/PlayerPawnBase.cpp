@@ -70,22 +70,32 @@ void APlayerPawnBase::ActionPressed()
 		FindEqualSphere(Hit.GetActor());
 
 
-		//If the click was on a sphere
+
+
+		//Is Valid Level Element
 		if (IsValid(LevelCreatorInPawn)) {
+			//If Click was on Sphere
 			if (CalcLibrary::IsSphere(Hit.GetActor(), LevelCreatorInPawn) && 
+				//And valid Sphere
 				IsValid(LevelCreatorInPawn->DotsArray[SphereID])) {
+				//If The Element is dot
 				if (LevelCreatorInPawn->DotsArray.Num() == 1) {
+					//If InLine created
 					if (IsValid(InLinePtr))
 						InLinePtr->Destroy();
+					//Destroy point
 					LevelCreatorInPawn->DotsArray[0]->Destroy();
+					//Destroy level element
+					LevelCreatorInPawn->Destroy();
 				}
 				else {
-					FVector Util = CalcLibrary::LineProjection(
-						Hit.Location,
-						LevelCreatorInPawn->DotsArray[SphereID]->GetActorLocation(),
-						LevelCreatorInPawn->DotsArray[SphereID + 1]->GetActorLocation(),
-						SphereID, CurrentSphere, LevelCreatorInPawn, InLinePtr
-					);
+					FVector Util = Hit.GetActor()->GetActorLocation();
+					//CalcLibrary::LineProjection(
+					//	Hit.Location,
+					//	LevelCreatorInPawn->DotsArray[SphereID]->GetActorLocation(),
+					//	LevelCreatorInPawn->DotsArray[SphereID + 1]->GetActorLocation(),
+					//	SphereID, CurrentSphere, LevelCreatorInPawn, InLinePtr
+					//);
 
 					InLinePtr = GetWorld()->SpawnActor<AInLineIndicator>(InLineClass, FTransform(FVector(Util.X, Util.Y, 50)));
 

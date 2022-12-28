@@ -46,12 +46,17 @@ FVector CalcLibrary::LineProjection(
 	FVector DistanceFromOrigin = FVector((SecSphere.X - FirSphere.X), (SecSphere.Y - FirSphere.Y), 0);
 
 	if (Angle < 0)
-		return FVector(FirSphere.X, FirSphere.Y, 50);
+		return Indicator->GetActorLocation();
 
-	else if ((SplineMeshDistance / a) < 1) {
+
+	if ((SplineMeshDistance / a) < 1) {
 		FVector ShorterVector = DistanceFromOrigin * (SplineMeshDistance / a);
 		FVector Final = FVector((ShorterVector.X + FirSphere.X), (ShorterVector.Y + FirSphere.Y), 50);
-		return Final;
+		if (DistanceCalculation(FirSphere, Final) <
+			DistanceCalculation(FirSphere, Indicator->GetActorLocation()))
+			return Indicator->GetActorLocation();
+		else 
+			return Final;
 	}
 
 	else {

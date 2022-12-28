@@ -19,8 +19,9 @@ void AIntershipSwipeStGameModeBase::CreateLevelFunc(int32 LevelNum, ULevelsData*
 		NewLevel = GetWorld()->SpawnActor<ALevelCreator>(LevelCreator, LevelCreatorTransform);
 
 		LevelsArray.Add(NewLevel);
-		NewLevel->SpawnTime = Iterator.SpawnTime;
-		if (Iterator.LifeTime == 0.f) NewLevel->LifeTime = 2.f;
+		NewLevel->SpawnTime = FMath::Abs(Iterator.SpawnTime);
+
+		if (Iterator.LifeTime == 0.f) FMath::Abs(NewLevel->LifeTime = 2.f);
 		else NewLevel->LifeTime = Iterator.LifeTime;
 
 		for (FVector2D& VectorIterator : Iterator.Points) {
