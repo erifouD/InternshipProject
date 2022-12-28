@@ -33,7 +33,7 @@ struct FLevelSet {
 };
 
 UCLASS()
-class INTERSHIPSWIPEST_API ULevelsData : public UDataAsset
+class INTERSHIPSWIPEST_API ULevelsData : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 	
