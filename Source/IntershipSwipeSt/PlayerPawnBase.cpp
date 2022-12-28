@@ -62,12 +62,13 @@ void APlayerPawnBase::ActionPressed()
 	//If the level is active
 	if (bIsLevelCreatedPawn) {
 
-		//Pawn Controller Variable
-		APlayerController* PawnController = UGameplayStatics::GetPlayerController(this, 0);
-
 		FHitResult Hit;
 
-		PawnController->GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, Hit);
+		UGameplayStatics::GetPlayerController(this, 0)->
+			GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, Hit);
+
+		FindEqualSphere(Hit.GetActor());
+
 
 		//If the click was on a sphere
 		if (IsValid(LevelCreatorInPawn)) {
@@ -106,6 +107,7 @@ void APlayerPawnBase::ActionReleased()
 		InLinePtr->Destroy();
 	SphereID = 0;
 	CurrentSphere = 0;
+	LevelCreatorInPawn = nullptr;
 }
 
 void APlayerPawnBase::RecievingLocation()
@@ -126,8 +128,7 @@ void APlayerPawnBase::LevelCreate()
 {
 	bIsLevelCreatedPawn = true;
 
-	LevelCreatorInPawn = Cast<ALevelCreator>(Cast<AIntershipSwipeStGameModeBase>
-		(GetWorld()->GetAuthGameMode())->NewLevel);
+	GameElementsArray = Cast<AIntershipSwipeStGameModeBase>(GetWorld()->GetAuthGameMode())->LevelsArray;
 }
 
 void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
@@ -140,6 +141,22 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 				LevelCreatorInPawn->DotsArray[CurrentSphere + Multiplier]->GetActorLocation(),
 				SphereID, CurrentSphere, LevelCreatorInPawn, InLinePtr)
 			);
+		}
+	}
+}
+
+void APlayerPawnBase::FindEqualSphere(AActor* ComparableActor)
+{
+	if (IsValid(ComparableActor)) {
+		if (CalcLibrary::IsSphere(ComparableActor, GameElementsArray[0])) {
+			for (ALevelCreator* Iterator : GameElementsArray) {
+				for (ASphereDot* SphereIterator : Iterator->DotsArray) {
+					if (SphereIterator == ComparableActor) {
+						LevelCreatorInPawn = Iterator;
+						return;
+					}
+				}
+			}
 		}
 	}
 }

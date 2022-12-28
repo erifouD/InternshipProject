@@ -40,6 +40,9 @@ public:
 	AInLineIndicator* InLinePtr;
 
 	UPROPERTY()
+	TArray<ALevelCreator*> GameElementsArray;
+
+	UPROPERTY()
 	int32 CurrentSphere;
 
 	UPROPERTY()
@@ -84,4 +87,6 @@ public:
 
 	UFUNCTION()
 	void LineInProgress(FHitResult Hit, int32 Multiplier);
+
+	void FindEqualSphere(AActor* ComparableActor);
 };
