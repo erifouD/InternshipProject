@@ -16,7 +16,6 @@ ALevelCreator::ALevelCreator()
 void ALevelCreator::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -28,20 +27,7 @@ void ALevelCreator::Tick(float DeltaTime)
 
 void ALevelCreator::AddSphere(float x, float y)
 {
-
-	//Setting Transform for NewSphere
-	FTransform SphereTransform(FVector(x,y,0));
-
-	ASphereDot* NewSphere = GetWorld()->SpawnActor<ASphereDot>(SphereDotClass, SphereTransform);
-
-	//creating spline if Array of spheres is empty
-	if (DotsArray.Num() == 0)
-		NewLine = GetWorld()->SpawnActor<ASplineLine>(SplineLineClass, SphereTransform);
-
-	else
-		NewLine->AddSplineElement(x, y);
-
-	DotsArray.Add(NewSphere);
+	DotsPositions.Add(FVector2D(x, y));
 }
 
 void ALevelCreator::ClearLine()
@@ -50,5 +36,36 @@ void ALevelCreator::ClearLine()
 		Iterator->Destroy();
 	}
 	NewLine->Destroy();
+}
+
+void ALevelCreator::SpawnLevel()
+{
+	for (FVector2D& Iterator : DotsPositions) {
+		//Setting Transform for NewSphere
+		FTransform SphereTransform(FVector(Iterator.X, Iterator.Y, 0));
+
+		ASphereDot* NewSphere = GetWorld()->SpawnActor<ASphereDot>(SphereDotClass, SphereTransform);
+
+		//creating spline if Array of spheres is empty
+		if (DotsArray.Num() == 0)
+			NewLine = GetWorld()->SpawnActor<ASplineLine>(SplineLineClass, SphereTransform);
+
+		else
+			NewLine->AddSplineElement(Iterator.X, Iterator.Y);
+
+		DotsArray.Add(NewSphere);
+	}
+
+	GetWorldTimerManager().ClearTimer(ElementTimer);
+	GetWorldTimerManager().SetTimer(ElementTimer, this, &ALevelCreator::ClearLine, LifeTime);
+
+}
+
+void ALevelCreator::StartTimer()
+{
+	if (SpawnTime == 0.f)
+		SpawnLevel();
+	else
+		GetWorldTimerManager().SetTimer(ElementTimer, this, &ALevelCreator::SpawnLevel, SpawnTime);
 }
 

@@ -33,6 +33,18 @@ public:
 	UPROPERTY()
 	ASplineLine* NewLine = nullptr;
 
+	UPROPERTY()
+	TArray<FVector2D> DotsPositions;
+
+	UPROPERTY()
+	double SpawnTime;
+
+	UPROPERTY()
+	double LifeTime;
+
+	UPROPERTY()
+	FTimerHandle ElementTimer;
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -48,4 +60,10 @@ public:
 
 	UFUNCTION()
 	void ClearLine();
+
+	UFUNCTION()
+	void SpawnLevel();
+
+	UFUNCTION()
+	void StartTimer();
 };
