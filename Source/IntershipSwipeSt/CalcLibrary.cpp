@@ -13,7 +13,9 @@ CalcLibrary::~CalcLibrary()
 
 double CalcLibrary::DistanceCalculation(FVector FirstPoint, FVector SecondPoint)
 {
-	return 0.0;
+	//Vector Length Calculation
+	return FMath::Sqrt((SecondPoint.X - FirstPoint.X) * (SecondPoint.X - FirstPoint.X) +
+		(SecondPoint.Y - FirstPoint.Y) * (SecondPoint.Y - FirstPoint.Y));
 }
 
 FVector CalcLibrary::LineProjection(
@@ -86,5 +88,18 @@ void CalcLibrary::OnNextSphere(
 		}
 		else CurrentSphere--;
 	}
+}
+
+int32 CalcLibrary::GetSphereIDFromArray(AActor* Sphere, ALevelCreator* LevelCreator)
+{
+	if (Sphere->GetClass() == LevelCreator->SphereDotClass) {
+		for (int32 i = 0; i < LevelCreator->DotsArray.Num(); i++) {
+			if (LevelCreator->DotsArray[i] == Sphere) {
+				//SphereID = i;
+				return i;
+			}
+		}
+	}
+	return -10;
 }
 

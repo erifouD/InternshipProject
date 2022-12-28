@@ -79,21 +79,9 @@ public:
 	UFUNCTION()
 	void LocationCalculation(FHitResult HitRes);
 
-	UFUNCTION()
-	double DistanceCalculation(FVector FirstPoint, FVector SecondPoint);
-
-	UFUNCTION()
-	FVector LineProjection(FVector CurrentLocation, FVector FirSphere, FVector SecSphere);
-
 	UFUNCTION(BlueprintCallable)
 	void LevelCreate();
 
 	UFUNCTION()
 	void LineInProgress(FHitResult Hit, int32 Multiplier);
-
-	int32 GetSphereIDFromArray(AActor* Sphere);
-
-	bool IsSphere(AActor* HittedActor);
-
-	void OnNextSphere();
 };

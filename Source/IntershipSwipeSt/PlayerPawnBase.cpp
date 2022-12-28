@@ -71,19 +71,25 @@ void APlayerPawnBase::ActionPressed()
 
 		//If the click was on a sphere
 		if (IsValid(LevelCreatorInPawn)) {
-			if (IsSphere(Hit.GetActor()) && IsValid(LevelCreatorInPawn->DotsArray[SphereID])) {
+			if (CalcLibrary::IsSphere(Hit.GetActor(), LevelCreatorInPawn) && 
+				IsValid(LevelCreatorInPawn->DotsArray[SphereID])) {
 				if (LevelCreatorInPawn->DotsArray.Num() == 1) {
 					if (IsValid(InLinePtr))
 						InLinePtr->Destroy();
 					LevelCreatorInPawn->DotsArray[0]->Destroy();
 				}
 				else {
-					FVector Util = LineProjection(Hit.Location, LevelCreatorInPawn->DotsArray[SphereID]->GetActorLocation(),
-						LevelCreatorInPawn->DotsArray[SphereID + 1]->GetActorLocation());
+					FVector Util = CalcLibrary::LineProjection(
+						Hit.Location,
+						LevelCreatorInPawn->DotsArray[SphereID]->GetActorLocation(),
+						LevelCreatorInPawn->DotsArray[SphereID + 1]->GetActorLocation(),
+						SphereID, CurrentSphere, LevelCreatorInPawn, InLinePtr
+					);
+
 					InLinePtr = GetWorld()->SpawnActor<AInLineIndicator>(InLineClass, FTransform(FVector(Util.X, Util.Y, 50)));
 
 					//Getting the ID for the clicked sphere
-					SphereID = GetSphereIDFromArray(Hit.GetActor());
+					SphereID = CalcLibrary::GetSphereIDFromArray(Hit.GetActor(), LevelCreatorInPawn);
 					if (SphereID == 0) CurrentSphere = 0;
 					else if (SphereID == LevelCreatorInPawn->DotsArray.Num() - 1) CurrentSphere = LevelCreatorInPawn->DotsArray.Num() - 1;
 				}
@@ -114,47 +120,7 @@ void APlayerPawnBase::RecievingLocation()
 	LocationCalculation(Hit);
 }
 
-double APlayerPawnBase::DistanceCalculation(FVector FirstPoint, FVector SecondPoint)
-{
-	//Vector Length Calculation
-	return FMath::Sqrt((SecondPoint.X - FirstPoint.X) * (SecondPoint.X - FirstPoint.X) +
-		(SecondPoint.Y - FirstPoint.Y) * (SecondPoint.Y - FirstPoint.Y));
-}
 
-FVector APlayerPawnBase::LineProjection(FVector CurrentLocation, FVector FirSphere, FVector SecSphere)
-{
-	double a, b, c, p, Height, SplineMeshDistance, Angle;
-
-	//Finding the sides of a triangle
-	a = DistanceCalculation(FirSphere, SecSphere);
-	b = DistanceCalculation(CurrentLocation, FirSphere);
-	c = DistanceCalculation(CurrentLocation, SecSphere);
-
-	//Semiperimeter of a triangle
-	p = (a + b + c) / 2;
-	
-	//Triangle Height
-	Height = (2 * FMath::Sqrt(p * (p - a) * (p - b) * (p - c)) / a);
-
-	SplineMeshDistance = FMath::Sqrt(b * b - Height * Height);
-
-	Angle = ((a * a + b * b - c * c) / (2 * b * a));
-	FVector DistanceFromOrigin = FVector((SecSphere.X - FirSphere.X), (SecSphere.Y - FirSphere.Y), 0);
-
-	if (Angle < 0)
-		return FVector(FirSphere.X, FirSphere.Y, 50);
-
-	else if ((SplineMeshDistance / a) < 1) {
-		FVector ShorterVector = DistanceFromOrigin * (SplineMeshDistance / a);
-		FVector Final = FVector((ShorterVector.X + FirSphere.X), (ShorterVector.Y + FirSphere.Y), 50);
-		return Final;
-	}
-
-	else {
-		OnNextSphere();
-		return FVector(SecSphere.X, SecSphere.Y, 50);
-	}
-}
 
 void APlayerPawnBase::LevelCreate()
 {
@@ -168,52 +134,16 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 {
 	if (LevelCreatorInPawn != nullptr) {
 		if (bIsLevelCreatedPawn && CurrentSphere + Multiplier < LevelCreatorInPawn->DotsArray.Num() && IsValid(InLinePtr)) {
-			InLinePtr->SetActorLocation(LineProjection
+			InLinePtr->SetActorLocation(CalcLibrary::LineProjection
 			(CurrentCursorLocation,
 				LevelCreatorInPawn->DotsArray[CurrentSphere]->GetActorLocation(),
-				LevelCreatorInPawn->DotsArray[CurrentSphere + Multiplier]->GetActorLocation())
+				LevelCreatorInPawn->DotsArray[CurrentSphere + Multiplier]->GetActorLocation(),
+				SphereID, CurrentSphere, LevelCreatorInPawn, InLinePtr)
 			);
 		}
 	}
 }
 
-int32 APlayerPawnBase::GetSphereIDFromArray(AActor* Sphere)
-{
-	if (Sphere->GetClass() == LevelCreatorInPawn->SphereDotClass) {
-		for (int32 i = 0; i < LevelCreatorInPawn->DotsArray.Num(); i++) {
-			if (LevelCreatorInPawn->DotsArray[i] == Sphere) {
-				//SphereID = i;
-				return i;
-			}
-		}
-	}
-	return -10;
-}
-
-bool APlayerPawnBase::IsSphere(AActor* HittedActor)
-{
-	if (HittedActor->GetClass() == LevelCreatorInPawn->SphereDotClass)
-		return true;
-	else return false;
-}
-
-void APlayerPawnBase::OnNextSphere()
-{
-	if (SphereID == 0) {
-		if ((CurrentSphere + 1) == LevelCreatorInPawn->DotsArray.Num() - 1) {
-			LevelCreatorInPawn->ClearLine();
-			InLinePtr->Destroy();
-		}
-		else CurrentSphere++;
-	}
-	else {
-		if ((CurrentSphere - 1) == 0) {
-			LevelCreatorInPawn->ClearLine();
-			InLinePtr->Destroy();
-		}
-		else CurrentSphere--;
-	}
-}
 
 void APlayerPawnBase::LocationCalculation(FHitResult HitRes)
 {

@@ -17,9 +17,9 @@ public:
 
 
 
-	double DistanceCalculation(FVector FirstPoint, FVector SecondPoint);
+	static double DistanceCalculation(FVector FirstPoint, FVector SecondPoint);
 
-	FVector LineProjection(
+	static FVector LineProjection(
 		FVector CurrentLocation, 
 		FVector FirSphere, 
 		FVector SecSphere,
@@ -28,11 +28,13 @@ public:
 		ALevelCreator* LevelCreator,
 		AInLineIndicator* Indicator);
 
-	bool IsSphere(AActor* HittedActor, ALevelCreator* LevelCreator);
+	static bool IsSphere(AActor* HittedActor, ALevelCreator* LevelCreator);
 
-	void OnNextSphere(
+	static void OnNextSphere(
 		int32& SphereID,
 		int32& CurrentSphere,
 		ALevelCreator* LevelCreator,
 		AInLineIndicator* Indicator);
+
+	static int32 GetSphereIDFromArray(AActor* Sphere, ALevelCreator* LevelCreator);
 };
