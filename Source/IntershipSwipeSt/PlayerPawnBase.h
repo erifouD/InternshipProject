@@ -43,6 +43,9 @@ public:
 	int32 CurrentLevelID;
 
 	UPROPERTY()
+	int32 Score = 0;
+
+	UPROPERTY()
 	AInLineIndicator* InLinePtr;
 
 	UPROPERTY(BlueprintReadWrite)
@@ -101,4 +104,10 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void DecreaseLife();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void Pass();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void AddScore();
 };

@@ -30,6 +30,9 @@ struct FLevelSet {
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	TArray<FElementData> GameElements;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 BestScore = 0;
 };
 
 UCLASS()

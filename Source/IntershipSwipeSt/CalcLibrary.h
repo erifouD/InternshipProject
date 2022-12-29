@@ -39,4 +39,6 @@ public:
 		AInLineIndicator*& Indicator);
 
 	static int32 GetSphereIDFromArray(AActor* Sphere, ALevelCreator* LevelCreator);
+
+	static int32 CalcScore(double PassedDistance, double DistanceFromLine);
 };

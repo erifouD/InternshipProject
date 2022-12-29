@@ -76,6 +76,7 @@ bool CalcLibrary::IsSphere(AActor* HittedActor, ALevelCreator* LevelCreator)
 }
 
 
+
 void CalcLibrary::OnNextSphere(
 	int32& SphereID,
 	int32& CurrentSphere,
@@ -114,5 +115,13 @@ int32 CalcLibrary::GetSphereIDFromArray(AActor* Sphere, ALevelCreator* LevelCrea
 		}
 	}
 	return -10;
+}
+
+int32 CalcLibrary::CalcScore(double PassedDistance, double DistanceFromLine)
+{
+	if (DistanceFromLine < 1)
+		return PassedDistance * 100;
+	else
+		return PassedDistance * (100 / DistanceFromLine);
 }
 

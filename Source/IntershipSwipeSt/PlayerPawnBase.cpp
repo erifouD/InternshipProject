@@ -146,12 +146,20 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 {
 	if (LevelCreatorInPawn != nullptr) {
 		if (bIsLevelCreatedPawn && CurrentSphere + Multiplier < LevelCreatorInPawn->DotsArray.Num() && IsValid(InLinePtr)) {
+			FVector PreviousPos = InLinePtr->GetActorLocation();
 			InLinePtr->SetActorLocation(CalcLibrary::LineProjection
 			(CurrentCursorLocation,
 				LevelCreatorInPawn->DotsArray[CurrentSphere]->GetActorLocation(),
 				LevelCreatorInPawn->DotsArray[CurrentSphere + Multiplier]->GetActorLocation(),
 				SphereID, CurrentSphere, CurrentLives, LevelCreatorInPawn, InLinePtr)
 			);
+			FVector CurrentPos = InLinePtr->GetActorLocation();
+			Score += CalcLibrary::CalcScore(
+			CalcLibrary::DistanceCalculation(PreviousPos, CurrentPos),
+			CalcLibrary::DistanceCalculation(CurrentCursorLocation, CurrentPos)
+			);
+			//Blueprint
+			AddScore();
 		}
 	}
 }
@@ -173,7 +181,6 @@ void APlayerPawnBase::FindEqualSphere(AActor* ComparableActor)
 		}
 	}
 }
-
 
 void APlayerPawnBase::LocationCalculation(FHitResult HitRes)
 {
