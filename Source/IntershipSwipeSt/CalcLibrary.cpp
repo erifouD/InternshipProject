@@ -88,6 +88,7 @@ void CalcLibrary::OnNextSphere(
 		if ((CurrentSphere + 1) == LevelCreator->DotsArray.Num() - 1) {
 			CurrentLives++;
 			LevelCreator->ClearLine();
+			LevelCreator->Destroy();
 			LevelCreator = nullptr;
 			Indicator->Destroy();
 		}
@@ -97,6 +98,7 @@ void CalcLibrary::OnNextSphere(
 		if ((CurrentSphere - 1) == 0) {
 			CurrentLives++;
 			LevelCreator->ClearLine();
+			LevelCreator->Destroy();
 			LevelCreator = nullptr;
 			Indicator->Destroy();
 		}
@@ -120,8 +122,8 @@ int32 CalcLibrary::GetSphereIDFromArray(AActor* Sphere, ALevelCreator* LevelCrea
 int32 CalcLibrary::CalcScore(double PassedDistance, double DistanceFromLine)
 {
 	if (DistanceFromLine < 1)
-		return PassedDistance * 100;
+		return PassedDistance * 10;
 	else
-		return PassedDistance * (100 / DistanceFromLine);
+		return PassedDistance * (FMath::Sqrt(100 / DistanceFromLine));
 }
 

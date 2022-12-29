@@ -36,16 +36,19 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AInLineIndicator> InLineClass;
 
+	UPROPERTY(EditDefaultsOnly)
+	int32 MaxDistance;
+
 	UPROPERTY(BlueprintReadWrite)
 	int32 CurrentLives = 3;
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 CurrentLevelID;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	int32 Score = 0;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	AInLineIndicator* InLinePtr;
 
 	UPROPERTY(BlueprintReadWrite)
@@ -82,7 +85,7 @@ public:
 	UFUNCTION()
 	void ActionPressed();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ActionReleased();
 
 	UFUNCTION()
@@ -104,9 +107,6 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void DecreaseLife();
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void Pass();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void AddScore();

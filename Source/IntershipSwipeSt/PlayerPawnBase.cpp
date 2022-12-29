@@ -154,11 +154,15 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 				SphereID, CurrentSphere, CurrentLives, LevelCreatorInPawn, InLinePtr)
 			);
 			FVector CurrentPos = InLinePtr->GetActorLocation();
+
+			if (CalcLibrary::DistanceCalculation(CurrentCursorLocation, CurrentPos) > MaxDistance) {
+				ActionReleased();
+				return;
+			}
 			Score += CalcLibrary::CalcScore(
 			CalcLibrary::DistanceCalculation(PreviousPos, CurrentPos),
 			CalcLibrary::DistanceCalculation(CurrentCursorLocation, CurrentPos)
 			);
-			//Blueprint
 			AddScore();
 		}
 	}
@@ -181,6 +185,7 @@ void APlayerPawnBase::FindEqualSphere(AActor* ComparableActor)
 		}
 	}
 }
+
 
 void APlayerPawnBase::LocationCalculation(FHitResult HitRes)
 {
