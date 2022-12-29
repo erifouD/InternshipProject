@@ -66,12 +66,10 @@ FVector CalcLibrary::LineProjection(
 	}
 }
 
-bool CalcLibrary::IsSphere(AActor* HittedActor, ALevelCreator* LevelCreator)
+bool CalcLibrary::IsSphere(AActor* HittedActor, TSubclassOf<ASphereDot> SphereClass)
 {
-	if (IsValid(LevelCreator)) {
-		if (HittedActor->GetClass() == LevelCreator->SphereDotClass)
-			return true;
-	}
+	if (HittedActor->GetClass() == SphereClass)
+		return true;
 	return false;
 }
 

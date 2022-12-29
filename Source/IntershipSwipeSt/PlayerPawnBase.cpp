@@ -58,7 +58,7 @@ void APlayerPawnBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void APlayerPawnBase::ActionPressed()
 {
-
+	bIsTapHold = true;
 	//If the level is active
 	if (bIsLevelCreatedPawn) {
 
@@ -75,7 +75,7 @@ void APlayerPawnBase::ActionPressed()
 		//Is Valid Level Element
 		if (IsValid(LevelCreatorInPawn)) {
 			//If Click was on Sphere
-			if (CalcLibrary::IsSphere(Hit.GetActor(), LevelCreatorInPawn) && 
+			if (CalcLibrary::IsSphere(Hit.GetActor(), SphereDotClass) &&
 				//And valid Sphere
 				IsValid(LevelCreatorInPawn->DotsArray[SphereID])) {
 				//If The Element is dot
@@ -83,10 +83,10 @@ void APlayerPawnBase::ActionPressed()
 					//If InLine created
 					if (IsValid(InLinePtr))
 						InLinePtr->Destroy();
-					//Destroy point
-					LevelCreatorInPawn->DotsArray[0]->Destroy();
 					//Destroy level element
-					LevelCreatorInPawn->Destroy();
+					LevelCreatorInPawn->ClearLine();
+
+					ActionReleased();
 				}
 				else {
 					FVector Util = Hit.GetActor()->GetActorLocation();
@@ -101,7 +101,6 @@ void APlayerPawnBase::ActionPressed()
 			}
 		}
 	}
-	bIsTapHold = true;
 }
 
 void APlayerPawnBase::ActionReleased()
@@ -118,6 +117,7 @@ void APlayerPawnBase::ActionReleased()
 	DecreaseLife();
 	SphereID = NULL;
 	CurrentSphere = 0;
+	TempScore = 0;
 	LevelCreatorInPawn = nullptr;
 }
 
@@ -156,13 +156,18 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 			FVector CurrentPos = InLinePtr->GetActorLocation();
 
 			if (CalcLibrary::DistanceCalculation(CurrentCursorLocation, CurrentPos) > MaxDistance) {
+				Score -= TempScore;
+				TempScore = 0;
+				AddScore();
 				ActionReleased();
 				return;
 			}
-			Score += CalcLibrary::CalcScore(
+			int32 AddScoreInt = CalcLibrary::CalcScore(
 			CalcLibrary::DistanceCalculation(PreviousPos, CurrentPos),
 			CalcLibrary::DistanceCalculation(CurrentCursorLocation, CurrentPos)
 			);
+			Score += AddScoreInt;
+			TempScore += AddScoreInt;
 			AddScore();
 		}
 	}
@@ -171,7 +176,7 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 void APlayerPawnBase::FindEqualSphere(AActor* ComparableActor)
 {
 	if (IsValid(ComparableActor)) {
-		if (CalcLibrary::IsSphere(ComparableActor, GameElementsArray[0])) {
+		if (CalcLibrary::IsSphere(ComparableActor, SphereDotClass)) {
 			for (ALevelCreator* Iterator : GameElementsArray) {
 				for (ASphereDot* SphereIterator : Iterator->DotsArray) {
 					if (SphereIterator == ComparableActor) {
@@ -184,6 +189,16 @@ void APlayerPawnBase::FindEqualSphere(AActor* ComparableActor)
 			}
 		}
 	}
+}
+
+bool APlayerPawnBase::IsAllElementsDestroyed()
+{
+	int Counter = 0;
+	for (ALevelCreator* Iterator : GameElementsArray) {
+		if (IsValid(Iterator)) Counter++;
+	}
+	if (Counter == 1) return true;
+	return false;
 }
 
 

@@ -70,3 +70,10 @@ void ALevelCreator::StartTimer()
 		GetWorldTimerManager().SetTimer(ElementTimer, this, &ALevelCreator::SpawnLevel, SpawnTime);
 }
 
+bool ALevelCreator::bIsElementIsDot()
+{
+	if (DotsArray.Num() == 1)
+		return true;
+	return false;
+}
+

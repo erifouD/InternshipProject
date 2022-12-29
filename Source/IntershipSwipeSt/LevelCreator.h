@@ -66,4 +66,7 @@ public:
 
 	UFUNCTION()
 	void StartTimer();
+
+	UFUNCTION(BlueprintPure)
+	bool bIsElementIsDot();
 };

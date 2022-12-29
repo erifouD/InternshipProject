@@ -37,6 +37,9 @@ public:
 	TSubclassOf<AInLineIndicator> InLineClass;
 
 	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ASphereDot> SphereDotClass;
+
+	UPROPERTY(EditDefaultsOnly)
 	int32 MaxDistance;
 
 	UPROPERTY(BlueprintReadWrite)
@@ -44,6 +47,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	int32 CurrentLevelID;
+
+	int32 TempScore = 0;
 
 	UPROPERTY(BlueprintReadOnly)
 	int32 Score = 0;
@@ -110,4 +115,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void AddScore();
+
+	UFUNCTION(BlueprintPure)
+	bool IsAllElementsDestroyed();
 };

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "LevelCreator.h"
+#include "SphereDot.h"
 #include "InLineIndicator.h"
 
 /**
@@ -29,7 +30,7 @@ public:
 		ALevelCreator*& LevelCreator,
 		AInLineIndicator*& Indicator);
 
-	static bool IsSphere(AActor* HittedActor, ALevelCreator* LevelCreator);
+	static bool IsSphere(AActor* HittedActor, TSubclassOf<ASphereDot> SphereClass);
 
 	static void OnNextSphere(
 		int32& SphereID,
