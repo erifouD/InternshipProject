@@ -107,8 +107,15 @@ void APlayerPawnBase::ActionPressed()
 void APlayerPawnBase::ActionReleased()
 {
 	bIsTapHold = false;
-	if(IsValid(InLinePtr))
+	if (IsValid(InLinePtr)) {
 		InLinePtr->Destroy();
+		CurrentLives--;
+		if (CurrentLives == 0) {
+
+			Lose();
+		}
+	}
+	DecreaseLife();
 	SphereID = NULL;
 	CurrentSphere = 0;
 	LevelCreatorInPawn = nullptr;
@@ -143,7 +150,7 @@ void APlayerPawnBase::LineInProgress(FHitResult Hit, int32 Multiplier)
 			(CurrentCursorLocation,
 				LevelCreatorInPawn->DotsArray[CurrentSphere]->GetActorLocation(),
 				LevelCreatorInPawn->DotsArray[CurrentSphere + Multiplier]->GetActorLocation(),
-				SphereID, CurrentSphere, LevelCreatorInPawn, InLinePtr)
+				SphereID, CurrentSphere, CurrentLives, LevelCreatorInPawn, InLinePtr)
 			);
 		}
 	}
@@ -156,8 +163,10 @@ void APlayerPawnBase::FindEqualSphere(AActor* ComparableActor)
 			for (ALevelCreator* Iterator : GameElementsArray) {
 				for (ASphereDot* SphereIterator : Iterator->DotsArray) {
 					if (SphereIterator == ComparableActor) {
-						LevelCreatorInPawn = Iterator;
-						return;
+						if (SphereIterator == Iterator->DotsArray[0] || SphereIterator == Iterator->DotsArray.Last()) {
+							LevelCreatorInPawn = Iterator;
+							return;
+						}
 					}
 				}
 			}

@@ -36,10 +36,16 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AInLineIndicator> InLineClass;
 
+	UPROPERTY(BlueprintReadWrite)
+	int32 CurrentLives = 3;
+
+	UPROPERTY(BlueprintReadWrite)
+	int32 CurrentLevelID;
+
 	UPROPERTY()
 	AInLineIndicator* InLinePtr;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 	TArray<ALevelCreator*> GameElementsArray;
 
 	UPROPERTY()
@@ -89,4 +95,10 @@ public:
 	void LineInProgress(FHitResult Hit, int32 Multiplier);
 
 	void FindEqualSphere(AActor* ComparableActor);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void Lose();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void DecreaseLife();
 };

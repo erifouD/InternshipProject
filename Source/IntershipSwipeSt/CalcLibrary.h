@@ -25,6 +25,7 @@ public:
 		FVector SecSphere,
 		int32& SphereID,
 		int32& CurrentSphere,
+		int32& CurrentLives,
 		ALevelCreator*& LevelCreator,
 		AInLineIndicator*& Indicator);
 
@@ -33,6 +34,7 @@ public:
 	static void OnNextSphere(
 		int32& SphereID,
 		int32& CurrentSphere,
+		int32& CurrentLives,
 		ALevelCreator*& LevelCreator,
 		AInLineIndicator*& Indicator);
 

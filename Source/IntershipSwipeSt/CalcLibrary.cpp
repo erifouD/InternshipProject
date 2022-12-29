@@ -24,6 +24,7 @@ FVector CalcLibrary::LineProjection(
 	FVector SecSphere,
 	int32& SphereID,
 	int32& CurrentSphere,
+	int32& CurrentLives,
 	ALevelCreator*& LevelCreator,
 	AInLineIndicator*& Indicator)
 {
@@ -60,27 +61,31 @@ FVector CalcLibrary::LineProjection(
 	}
 
 	else {
-		OnNextSphere(SphereID, CurrentSphere, LevelCreator, Indicator);
+		OnNextSphere(SphereID, CurrentSphere, CurrentLives, LevelCreator, Indicator);
 		return FVector(SecSphere.X, SecSphere.Y, 50);
 	}
 }
 
 bool CalcLibrary::IsSphere(AActor* HittedActor, ALevelCreator* LevelCreator)
 {
-	if (HittedActor->GetClass() == LevelCreator->SphereDotClass)
-		return true;
-	else return false;
+	if (IsValid(LevelCreator)) {
+		if (HittedActor->GetClass() == LevelCreator->SphereDotClass)
+			return true;
+	}
+	return false;
 }
 
 
 void CalcLibrary::OnNextSphere(
-	int32& SphereID, 
-	int32& CurrentSphere, 
+	int32& SphereID,
+	int32& CurrentSphere,
+	int32& CurrentLives,
 	ALevelCreator*& LevelCreator,
 	AInLineIndicator*& Indicator)
 {
 	if (SphereID == 0) {
 		if ((CurrentSphere + 1) == LevelCreator->DotsArray.Num() - 1) {
+			CurrentLives++;
 			LevelCreator->ClearLine();
 			LevelCreator = nullptr;
 			Indicator->Destroy();
@@ -89,6 +94,7 @@ void CalcLibrary::OnNextSphere(
 	}
 	else {
 		if ((CurrentSphere - 1) == 0) {
+			CurrentLives++;
 			LevelCreator->ClearLine();
 			LevelCreator = nullptr;
 			Indicator->Destroy();

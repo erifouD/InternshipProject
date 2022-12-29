@@ -58,7 +58,7 @@ public:
 	UFUNCTION()
 	void AddSphere(float x, float y);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ClearLine();
 
 	UFUNCTION()
@@ -66,7 +66,4 @@ public:
 
 	UFUNCTION()
 	void StartTimer();
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void BlueprintPawnCast();
 };
