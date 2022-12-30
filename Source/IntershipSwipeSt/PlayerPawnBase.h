@@ -70,6 +70,7 @@ public:
 
 	int32 SphereID = 0;
 
+	UPROPERTY(BlueprintReadOnly)
 	ALevelCreator* LevelCreatorInPawn;
 
 	bool bIsLevelCreatedPawn = false;
@@ -118,4 +119,7 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	bool IsAllElementsDestroyed();
+
+	UFUNCTION(BlueprintPure)
+	bool bNoMoreLives();
 };

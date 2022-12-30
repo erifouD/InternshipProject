@@ -84,7 +84,7 @@ void CalcLibrary::OnNextSphere(
 {
 	if (SphereID == 0) {
 		if ((CurrentSphere + 1) == LevelCreator->DotsArray.Num() - 1) {
-			CurrentLives++;
+			//CurrentLives++;
 			LevelCreator->ClearLine();
 			LevelCreator->Destroy();
 			LevelCreator = nullptr;
@@ -94,7 +94,7 @@ void CalcLibrary::OnNextSphere(
 	}
 	else {
 		if ((CurrentSphere - 1) == 0) {
-			CurrentLives++;
+			//CurrentLives++;
 			LevelCreator->ClearLine();
 			LevelCreator->Destroy();
 			LevelCreator = nullptr;

@@ -84,9 +84,13 @@ void APlayerPawnBase::ActionPressed()
 					if (IsValid(InLinePtr))
 						InLinePtr->Destroy();
 					//Destroy level element
+					CurrentLives++;
+					Score += 1000;
+					LevelCreatorInPawn->bSelfDestruct = false;
 					LevelCreatorInPawn->ClearLine();
-
+					AddScore();
 					ActionReleased();
+					CurrentLives--;
 				}
 				else {
 					FVector Util = Hit.GetActor()->GetActorLocation();
@@ -109,7 +113,7 @@ void APlayerPawnBase::ActionReleased()
 	if (IsValid(InLinePtr)) {
 		InLinePtr->Destroy();
 		CurrentLives--;
-		if (CurrentLives == 0) {
+		if (bNoMoreLives()) {
 
 			Lose();
 		}
@@ -178,11 +182,13 @@ void APlayerPawnBase::FindEqualSphere(AActor* ComparableActor)
 	if (IsValid(ComparableActor)) {
 		if (CalcLibrary::IsSphere(ComparableActor, SphereDotClass)) {
 			for (ALevelCreator* Iterator : GameElementsArray) {
-				for (ASphereDot* SphereIterator : Iterator->DotsArray) {
-					if (SphereIterator == ComparableActor) {
-						if (SphereIterator == Iterator->DotsArray[0] || SphereIterator == Iterator->DotsArray.Last()) {
-							LevelCreatorInPawn = Iterator;
-							return;
+				if (Iterator != nullptr && !(Iterator->DotsArray.Num() == 0)) {
+					for (ASphereDot* SphereIterator : Iterator->DotsArray) {
+						if (SphereIterator == ComparableActor) {
+							if (SphereIterator == Iterator->DotsArray[0] || SphereIterator == Iterator->DotsArray.Last()) {
+								LevelCreatorInPawn = Iterator;
+								return;
+							}
 						}
 					}
 				}
@@ -198,6 +204,13 @@ bool APlayerPawnBase::IsAllElementsDestroyed()
 		if (IsValid(Iterator)) Counter++;
 	}
 	if (Counter == 1) return true;
+	return false;
+}
+
+bool APlayerPawnBase::bNoMoreLives()
+{
+	if (CurrentLives == 0)
+		return true;
 	return false;
 }
 

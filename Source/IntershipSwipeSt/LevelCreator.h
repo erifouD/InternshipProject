@@ -42,6 +42,9 @@ public:
 	UPROPERTY()
 	double LifeTime;
 
+	UPROPERTY(BlueprintReadOnly)
+	bool bSelfDestruct = true;
+
 	UPROPERTY()
 	FTimerHandle ElementTimer;
 
